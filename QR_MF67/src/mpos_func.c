@@ -446,6 +446,10 @@ void custom_show_bmp_proc(st_pkt_info *pkt_info)
 		return;
 	}
 	data_len = comm_pub_get_ll_len(pbuff + 2);
+	if (mpos_qr_data.bmp != NULL) {
+		FREE(mpos_qr_data.bmp);
+		mpos_qr_data.bmp = NULL;
+	}
 	mpos_qr_data.bmp = (char*)MALLOC(data_len + 1);
 	memcpy(mpos_qr_data.bmp, pbuff + 4, data_len);
 	APP_TRACE("bmp width[%d]", mpos_qr_data.bmpWidth);

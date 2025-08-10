@@ -80,9 +80,9 @@ static void json_get_str_by_key(cJSON* root, const char *key,char *val,int len)
       return; // Invalid arguments
   }
 
-  if (temp != NULL && temp->type == cJSON_String
+  if (temp != NULL && temp->type == cJSON_String)
   {
-    len_temp = strlen(temp->valuestring);
+    int len_temp = strlen(temp->valuestring);
     len_temp = len_temp > len ? len : len_temp;
     memcpy(val,temp->valuestring,len_temp);
   }
@@ -107,18 +107,28 @@ void mqtt_comm_messageArrived_qr(MessageData* md)
 {   
   MQTTMessage* m = md->message;
 
-  if ( m->payloadlen>0)
+  if (m->payloadlen > 0)
   {
-    MQTT_LOCK
-    const char *payload_end = NULL;
+    char* payload_copy = NULL;
     cJSON* proot = NULL;
+    const char *error_ptr = NULL;
 
-    // Use ParseWithOpts to parse the buffer directly without making a copy.
-    // The '1' at the end tells the parser to not require a null terminator.
-    proot = cJSON_ParseWithOpts((const char*)m->payload, &payload_end, 1);
+    // Allocate a buffer to hold the payload and a null terminator
+    payload_copy = (char*)MALLOC(m->payloadlen + 1);
+    if (payload_copy == NULL) {
+        APP_TRACE("Failed to allocate memory for MQTT payload copy\r\n");
+        return;
+    }
 
-    APP_TRACE("mqtt_comm_messageArrived_qr recv: %.*s\r\n", m->payloadlen, (char*)m->payload);
+    // Copy the payload and null-terminate it
+    memcpy(payload_copy, m->payload, m->payloadlen);
+    payload_copy[m->payloadlen] = '\0';
 
+    APP_TRACE("mqtt_comm_messageArrived_qr recv: %s\r\n", payload_copy);
+
+    MQTT_LOCK;
+    proot = cJSON_Parse(payload_copy);
+    
     if(proot != NULL)                   
     {                            
       st_qr_data* mpos_qr_data = mpos_func_get_qr_data();

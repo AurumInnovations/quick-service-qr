@@ -427,18 +427,18 @@ static void draw_status_line(int y_line)
     icon_path = (mqtt_status == status_Recving) ? "data\\connected.bmp" : "data\\disconnected.bmp";
 
     // Load icon and draw status line
-    pbmp = (char *)gui_load_bmp_ex(icon_path, &logowidth, &logoheight, &logocolor);
-    if (pbmp) {
-        int text_width = gui_get_text_width(mqtt_status_text);
-        int total_width = logowidth + 4 + text_width; // 4px spacing
-        int start_x = (gui_get_width() - total_width) / 2;
-        gui_out_bits_ex(start_x, GUI_LINE_TOP(y_line), pbmp, logowidth, logoheight, 0, logocolor);
-        gui_text_out(start_x + logowidth + 4, GUI_LINE_TOP(y_line), mqtt_status_text);
-        FREE(pbmp);
-    } else {
+    // pbmp = (char *)gui_load_bmp_ex(icon_path, &logowidth, &logoheight, &logocolor);
+    // if (pbmp) {
+    //     int text_width = gui_get_text_width(mqtt_status_text);
+    //     int total_width = logowidth + 4 + text_width; // 4px spacing
+    //     int start_x = (gui_get_width() - total_width) / 2;
+    //     gui_out_bits_ex(start_x, GUI_LINE_TOP(y_line), pbmp, logowidth, logoheight, 0, logocolor);
+    //     gui_text_out(start_x + logowidth + 4, GUI_LINE_TOP(y_line), mqtt_status_text);
+    //     FREE(pbmp);
+    // } else {
         // Fallback if icon is missing
         gui_textout_line_center(mqtt_status_text, GUI_LINE_TOP(y_line));
-    }
+    // }
 }
 
 void standby_pagepaint()
@@ -462,18 +462,18 @@ void standby_pagepaint()
 		gui_begin_batch_paint();
 		gui_set_win_rc();
 		gui_clear_dc();
-#if 1
+#if 0 // Disabled to prevent file open errors for missing logo.bmp
 		{
-			pbmp = (char *)gui_load_bmp_ex(LOGOIMG , &logowidth , &logoheight, &logocolor);
+			// pbmp = (char *)gui_load_bmp_ex(LOGOIMG , &logowidth , &logoheight, &logocolor);
 
-			logoleft = (gui_get_width()-logowidth)/2;
+			// logoleft = (gui_get_width()-logowidth)/2;
 
-			logotop = GUI_LINE_TOP(1);
+			// logotop = GUI_LINE_TOP(1);
 
-			if (pbmp != 0){
-				gui_out_bits_ex(logoleft, logotop, pbmp , logowidth , logoheight , 0 , logocolor);
-				FREE(pbmp);
-			}
+			// if (pbmp != 0){
+			// 	gui_out_bits_ex(logoleft, logotop, pbmp , logowidth , logoheight , 0 , logocolor);
+			// 	FREE(pbmp);
+			// }
 		}
 #endif
 #ifndef DEV_MF67_A10
@@ -688,6 +688,8 @@ void sdk_main_page()
  	static char dinit = 0;
     int nTimer;
     unsigned int nErrorCode; 
+	unsigned int tick1;
+	static unsigned int qr_display_timer = 0;
 		
 	mpos_qr_data = mpos_func_get_qr_data();
 		gui_set_font_mode(1);
@@ -755,15 +757,15 @@ void sdk_main_page()
 				}
 				if (strlen(mpos_qr_data->qrdata) > 0)
  				{
-					unsigned int tick = Sys_TimerOpen(1000);
-					static unsigned int tick1 = 0;
-					int showtime = (int)mpos_qr_data->showTime;
-
-					if (showtime && tick1 == 0)
-						tick1 = Sys_TimerOpen(showtime * 1000);
-					else if (tick1 == 0)
-						tick1 = Sys_TimerOpen(30 * 1000);
-
+					// If the timer has not been started for this QR code yet
+					if (qr_display_timer == 0)
+					{
+						// Start the timer using the showTime from the MQTT message.
+						// Default to 30 seconds if showTime is invalid (e.g., 0 or less).
+						int timeout_ms = (mpos_qr_data->showTime > 0) ? (mpos_qr_data->showTime * 1000) : (30 * 1000);
+						qr_display_timer = Sys_TimerOpen(timeout_ms);
+					}
+ 
 					if (g_ntag_init == 0)
 					{
 						g_ntag_init = 1;
@@ -771,17 +773,17 @@ void sdk_main_page()
 						Sys_rfid_emulate_init();
 					}
 					showQr(mpos_qr_data->amt, mpos_qr_data->qrdata);
-					if (Sys_TimerCheck(tick1) == 0)	
+					if (Sys_TimerCheck(qr_display_timer) == 0)	
 					{
 						mpos_func_clear_qr_data();
 						g_show_qr = 0;
 						Sys_rfid_emulate_deinit();
 						g_ntag_init = 0;
+						qr_display_timer = 0; // Reset for the next QR code
 					}
  				}
 				else if (mpos_qr_data->bmp != NULL)
 				{
-					unsigned int tick1;
 					int x_bmp = 0;
 					int y_bmp = 0;
 					tick1 = Sys_TimerOpen(mpos_qr_data->showTime * 1000);

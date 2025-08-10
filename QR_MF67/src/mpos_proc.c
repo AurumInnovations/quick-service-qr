@@ -36,12 +36,20 @@ void init_com()
 	else // HID
 		uartHand = UartOpen(HID_COM, 115200, UART_DATABIT8, UART_STOPBIT1, UART_NOPARITY);
     APP_TRACE("#########uart_open:%d,%d#########",MPOS_PORT_COM,uartHand);
+    if (usb_buff != NULL) {
+        free(usb_buff);
+        usb_buff = NULL;
+    }
     usb_buff = (unsigned char *)Util_Malloc(MAX_UART_BUF);
     mf_appport_setfifo(usb_buff, MAX_UART_BUF);
 #else
     osl_log_pause();//close log out
 	uartHand = UartOpen(MPOS_PORT_COM, 115200, UART_DATABIT8, UART_STOPBIT1, UART_NOPARITY);
 	APP_TRACE("#########uart_open:%d,%d#########",MPOS_PORT_COM,uartHand);
+	if (usb_buff != NULL) {
+		free(usb_buff);
+		usb_buff = NULL;
+	}
 	usb_buff = (unsigned char *)Util_Malloc(MAX_UART_BUF);
 	mf_appport_setfifo(usb_buff, MAX_UART_BUF);
 #endif        
