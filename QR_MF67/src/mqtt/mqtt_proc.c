@@ -238,7 +238,7 @@ static int mqtt_comm_run()
 	int rc = 0;
 	static int s_show_once = 0;
 	
-  strcpy(s_statustext,"Connecting..");
+  strcpy(s_statustext,"Subscribing..");
 	s_status = status_Connecting;
 
 	APP_TRACE("mqtt_comm_run Connecting\r\n");
@@ -301,7 +301,7 @@ static int mqtt_comm_run()
     if(rc == 0) 
     {
       APP_TRACE("mqtt subscribe success!\r\n");  
-      sprintf((char*)s_statustext, "Connected");
+      sprintf((char*)s_statustext, "Subscribed");
       s_status = status_Recving; // Set status to connected/receiving
       while( MQTTIsConnected(&c) )
       {					
@@ -320,7 +320,7 @@ static int mqtt_comm_run()
     }                
     else
     {
-		  sprintf((char*)s_statustext, "Connect Failed: %d", rc);
+		  sprintf((char*)s_statustext, "Subscription Failed: %d", rc);
     }
     NetworkDisconnect(&n);
 	}	

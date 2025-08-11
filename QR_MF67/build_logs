@@ -1,0 +1,245 @@
+Building configuration: QR_MF67A10.vcprojm67 - Debug 
+Updating build tree... 
+ 
+83  file(s) deleted. 
+Updating build tree... 
+admin_set_func.c  
+Warning[Pa050]: non-native end of line sequence detected (this diagnostic is only issued once) C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\settings\admin_set_func.c 1 
+Warning[Pe223]: function "atoi" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\settings\admin_set_func.c 38 
+Warning[Pe223]: function "write_profile_int" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\settings\admin_set_func.c 49 
+Warning[Pe223]: function "read_profile_string" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\settings\admin_set_func.c 57 
+Warning[Pe223]: function "write_profile_string" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\settings\admin_set_func.c 62 
+Warning[Pe223]: function "strcmp" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\settings\admin_set_func.c 70 
+Warning[Pe177]: function "getitembuff" was declared but never referenced C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\settings\admin_set_func.c 15 
+cJSON.c  
+Warning[Pa050]: non-native end of line sequence detected (this diagnostic is only issued once) C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\cJSON\cJSON.c 1 
+Warning[Pe111]: statement is unreachable C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\cJSON\cJSON.c 352 
+keySoundSet.c  
+Warning[Pa050]: non-native end of line sequence detected (this diagnostic is only issued once) C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\test\keySoundSet.c 1 
+Warning[Pe223]: function "xgui_GetLineTop" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\test\keySoundSet.c 12 
+Warning[Pe223]: function "xgui_GetLineTop" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\test\keySoundSet.c 64 
+lcdLightSet.c  
+Warning[Pa050]: non-native end of line sequence detected (this diagnostic is only issued once) C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\test\lcdLightSet.c 1 
+Warning[Pe223]: function "xgui_GetLineTop" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\test\lcdLightSet.c 12 
+Warning[Pe223]: function "xgui_GetLineTop" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\test\lcdLightSet.c 18 
+Warning[Pe111]: statement is unreachable C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\test\lcdLightSet.c 110 
+Warning[Pa079]: undefined behavior: variable "nCurIndex" (declared at line 65) (or a value reached by some form of indirection through it) is modified more than once without an intervening  C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\test\lcdLightSet.c 91 
+sequence point in this statement 
+main.c  
+Warning[Pa050]: non-native end of line sequence detected (this diagnostic is only issued once) C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\app_def.h 1 
+Warning[Pe167]: argument of type "char *" is incompatible with parameter of type "unsigned char *" C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\main.c 136 
+Warning[Pe223]: function "mqtt_proc_init" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\main.c 149 
+Warning[Pe223]: function "mf_usb_set_cfg_mode" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\main.c 156 
+Warning[Pe223]: function "tms_init" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\main.c 174 
+Warning[Pe223]: function "bt_yc_set_patch_5864" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\main.c 183 
+Warning[Pe223]: function "bluetooth_init" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\main.c 186 
+Warning[Pe140]: too many arguments in function call C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\main.c 210 
+Warning[Pe223]: function "mf_start_apps" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\main.c 213 
+mpos_func.c  
+Warning[Pa050]: non-native end of line sequence detected (this diagnostic is only issued once) C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_func.c 1 
+Warning[Pe940]: missing return statement at end of non-void function "mpos_func_clear_qr_data" C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_func.c 30 
+Warning[Pe223]: function "mpos_pub_send_pkt_json" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_func.c 70 
+Warning[Pe550]: variable "state" was set but never used C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_func.c 58 
+Warning[Pe144]: a value of type "char *" cannot be used to initialize an entity of type "unsigned char *" C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_func.c 75 
+Warning[Pe144]: a value of type "char *" cannot be used to initialize an entity of type "unsigned char *" C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_func.c 179 
+Warning[Pe167]: argument of type "char *" is incompatible with parameter of type "unsigned char *" C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_func.c 267 
+Warning[Pe144]: a value of type "char *" cannot be used to initialize an entity of type "unsigned char *" C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_func.c 272 
+Warning[Pe550]: variable "ret" was set but never used C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_func.c 276 
+Warning[Pe177]: variable "i" was declared but never referenced C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_func.c 322 
+Warning[Pe144]: a value of type "char *" cannot be used to initialize an entity of type "unsigned char *" C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_func.c 334 
+Warning[Pe167]: argument of type "unsigned char *" is incompatible with parameter of type "char *" C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_func.c 337 
+Warning[Pe167]: argument of type "unsigned char *" is incompatible with parameter of type "char *" C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_func.c 338 
+Warning[Pe167]: argument of type "unsigned char *" is incompatible with parameter of type "char *" C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_func.c 339 
+Warning[Pe167]: argument of type "unsigned char *" is incompatible with parameter of type "char *" C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_func.c 340 
+Warning[Pe167]: argument of type "unsigned char *" is incompatible with parameter of type "char *" C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_func.c 341 
+Warning[Pe167]: argument of type "unsigned char *" is incompatible with parameter of type "char *" C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_func.c 342 
+Warning[Pe167]: argument of type "char *" is incompatible with parameter of type "byte *" C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_func.c 346 
+Warning[Pe223]: function "mpos_pub_send_pkt_json" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_func.c 352 
+Warning[Pe177]: variable "ret" was declared but never referenced C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_func.c 335 
+Warning[Pe177]: variable "szProductID" was declared but never referenced C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_func.c 336 
+Warning[Pe144]: a value of type "char *" cannot be used to initialize an entity of type "unsigned char *" C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_func.c 358 
+Warning[Pe144]: a value of type "char *" cannot be used to initialize an entity of type "unsigned char *" C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_func.c 375 
+Warning[Pe167]: argument of type "char *" is incompatible with parameter of type "unsigned char *" C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_func.c 431 
+Warning[Pe144]: a value of type "char *" cannot be used to initialize an entity of type "unsigned char *" C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_func.c 438 
+Warning[Pe144]: a value of type "char *" cannot be used to initialize an entity of type "unsigned char *" C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_func.c 462 
+Warning[Pe223]: function "set_ntag_block" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_func.c 466 
+Warning[Pe144]: a value of type "char *" cannot be used to initialize an entity of type "unsigned char *" C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_func.c 476 
+Warning[Pe167]: argument of type "char *" is incompatible with parameter of type "byte *" C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_func.c 496 
+Warning[Pe223]: function "json_tokener_parse" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_func.c 502 
+Warning[Pe223]: function "mpay_pub_get_json" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_func.c 506 
+Warning[Pe223]: function "json_object_put" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_func.c 515 
+Warning[Pe223]: function "mpos_pub_send_pkt_json" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_func.c 519 
+Warning[Pe550]: variable "state" was set but never used C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_func.c 487 
+Warning[Pe177]: variable "n" was declared but never referenced C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_func.c 488 
+Warning[Pe177]: variable "szSha1Data" was declared but never referenced C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_func.c 491 
+Warning[Pe223]: function "json_tokener_parse" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_func.c 530 
+Warning[Pe223]: function "mpay_pub_get_json" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_func.c 534 
+Warning[Pe223]: function "json_object_put" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_func.c 539 
+Warning[Pe223]: function "mpos_pub_send_pkt_json" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_func.c 543 
+Warning[Pe550]: variable "state" was set but never used C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_func.c 524 
+Warning[Pe177]: variable "n" was declared but never referenced C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_func.c 525 
+Warning[Pe223]: function "json_tokener_parse" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_func.c 558 
+Warning[Pe223]: function "mpay_pub_get_json" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_func.c 561 
+Warning[Pe223]: function "json_object_put" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_func.c 562 
+Warning[Pe167]: argument of type "char *" is incompatible with parameter of type "byte *" C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_func.c 565 
+Warning[Pe167]: argument of type "char *" is incompatible with parameter of type "byte *" C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_func.c 579 
+Warning[Pe223]: function "mpos_pub_send_pkt_json" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_func.c 582 
+Warning[Pe550]: variable "state" was set but never used C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_func.c 552 
+mpos_proc.c  
+Warning[Pa050]: non-native end of line sequence detected (this diagnostic is only issued once) C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_proc.c 1 
+Warning[Pe167]: argument of type "char *" is incompatible with parameter of type "unsigned char *" C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_proc.c 19 
+Warning[Pe513]: a value of type "unsigned char *" cannot be assigned to an entity of type "char *" C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_proc.c 39 
+Warning[Pe223]: function "mf_appport_setfifo" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_proc.c 40 
+Warning[Pe223]: function "mf_appport_setfifo" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_proc.c 71 
+Warning[Pe223]: function "mf_usb_hid_setfifo" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_proc.c 74 
+Warning[Pe223]: function "bluetooth_is_connect" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_proc.c 89 
+Warning[Pe223]: function "bluetooth_recv_count" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_proc.c 99 
+Warning[Pe223]: function "bluetooth_recv" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_proc.c 109 
+Warning[Pe167]: argument of type "char *" is incompatible with parameter of type "unsigned char *" C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_proc.c 112 
+Warning[Pe223]: function "bluetooth_run_proc" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_proc.c 131 
+Warning[Pe167]: argument of type "unsigned char *" is incompatible with parameter of type "char *" C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_proc.c 137 
+Warning[Pe177]: variable "i" was declared but never referenced C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_proc.c 119 
+Warning[Pe223]: function "xgui_GetLineTop" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_proc.c 184 
+Warning[Pe940]: missing return statement at end of non-void function "handle_key_press" C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_proc.c 204 
+Warning[Pe177]: variable "presskey" was declared but never referenced C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_proc.c 208 
+Warning[Pe177]: function "UART_GetChar" was declared but never referenced C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_proc.c 15 
+mpos_pub.c  
+Warning[Pa050]: non-native end of line sequence detected (this diagnostic is only issued once) C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_pub.c 1 
+Warning[Pe223]: function "bluetooth_send" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_pub.c 23 
+Warning[Pe167]: argument of type "char *" is incompatible with parameter of type "unsigned char *" C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_pub.c 27 
+Warning[Pe167]: argument of type "unsigned char *" is incompatible with parameter of type "char *" C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_pub.c 141 
+Warning[Pe177]: variable "iSendLen" was declared but never referenced C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_pub.c 112 
+Warning[Pe177]: variable "i" was declared but never referenced C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_pub.c 113 
+Warning[Pe167]: argument of type "char *" is incompatible with parameter of type "unsigned char *" C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_pub.c 187 
+Warning[Pe513]: a value of type "unsigned char *" cannot be assigned to an entity of type "char *" C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_pub.c 204 
+Warning[Pe167]: argument of type "unsigned char *" is incompatible with parameter of type "char *" C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_pub.c 219 
+Warning[Pe223]: function "mpay_pub_get_json" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_pub.c 222 
+Warning[Pe513]: a value of type "unsigned char *" cannot be assigned to an entity of type "char *" C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_pub.c 225 
+Warning[Pe167]: argument of type "unsigned char *" is incompatible with parameter of type "char const *" C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_pub.c 238 
+Warning[Pe167]: argument of type "unsigned char *" is incompatible with parameter of type "char *" C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_pub.c 272 
+Warning[Pe177]: variable "pbuff" was declared but never referenced C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_pub.c 372 
+Warning[Pe223]: function "utf8str2astr" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mpos_pub.c 408 
+mqtt_proc.c  
+Warning[Pa050]: non-native end of line sequence detected (this diagnostic is only issued once) C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\sdk\inc\ucosii\ucos_ii.h 1 
+Error[Pe020]: identifier "len_temp" is undefined C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mqtt\mqtt_proc.c 85 
+Warning[Pe940]: missing return statement at end of non-void function "mqtt_proc_Pause" C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mqtt\mqtt_proc.c 145 
+Warning[Pe940]: missing return statement at end of non-void function "mqtt_proc_Resume" C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mqtt\mqtt_proc.c 150 
+Warning[Pe223]: function "Ex_Str_HexToAsc" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mqtt\mqtt_proc.c 158 
+Warning[Pe177]: variable "hmac_payload" was declared but never referenced C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mqtt\mqtt_proc.c 166 
+Warning[Pe167]: argument of type "unsigned char *" is incompatible with parameter of type "char *" C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mqtt\mqtt_proc.c 231 
+Warning[Pe223]: function "get_yyyymmdd_str" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mqtt\mqtt_proc.c 260 
+Warning[Pe223]: function "get_hhmmss_str" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mqtt\mqtt_proc.c 261 
+Warning[Pe188]: enumerated type mixed with another type C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mqtt\mqtt_proc.c 287 
+Warning[Pe177]: variable "topic0" was declared but never referenced C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mqtt\mqtt_proc.c 248 
+Warning[Pe223]: function "net_func_link_state" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mqtt\mqtt_proc.c 350 
+Warning[Pe223]: function "net_func_link_state" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mqtt\mqtt_proc.c 357 
+Warning[Pe177]: function "HMACcalculate" was declared but never referenced C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\mqtt\mqtt_proc.c 152 
+Error while running C/C++ Compiler 
+scan_page.c  
+Warning[Pa050]: non-native end of line sequence detected (this diagnostic is only issued once) C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\scan_page.c 1 
+Warning[Pe223]: function "Util_Beep" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\scan_page.c 33 
+Warning[Pe223]: function "strlen" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\scan_page.c 42 
+Warning[Pe223]: function "memcpy" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\scan_page.c 45 
+Warning[Pe223]: function "memcpy" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\scan_page.c 48 
+sdk_driver.c  
+Warning[Pa050]: non-native end of line sequence detected (this diagnostic is only issued once) C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\sdk_driver.c 2 
+Warning[Pe223]: function "xgui_GetLineTop" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\sdk_driver.c 18 
+Warning[Pe167]: argument of type "unsigned char *" is incompatible with parameter of type "char *" C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\sdk_driver.c 73 
+Warning[Pe177]: variable "msg" was declared but never referenced C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\sdk_driver.c 44 
+Warning[Pe223]: function "xgui_GetLineTop" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\sdk_driver.c 111 
+Warning[Pe167]: argument of type "char *" is incompatible with parameter of type "unsigned char *" C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\sdk_driver.c 114 
+Warning[Pe223]: function "xgui_GetLineTop" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\sdk_driver.c 124 
+Warning[Pe223]: function "xgui_GetLineTop" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\sdk_driver.c 129 
+Warning[Pe223]: function "xgui_GetLineTop" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\sdk_driver.c 135 
+Warning[Pe223]: function "xgui_GetLineTop" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\sdk_driver.c 143 
+Warning[Pe167]: argument of type "unsigned char *" is incompatible with parameter of type "char *" C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\sdk_driver.c 221 
+Warning[Pe167]: argument of type "unsigned char *" is incompatible with parameter of type "char *" C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\sdk_driver.c 226 
+Warning[Pe223]: function "get_hhmmss_str" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\sdk_driver.c 243 
+Warning[Pe223]: function "close_com" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\sdk_driver.c 309 
+Warning[Pe177]: variable "logo" was declared but never referenced C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\sdk_driver.c 241 
+sdk_file.c  
+Warning[Pa050]: non-native end of line sequence detected (this diagnostic is only issued once) C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\sdk_file.c 1 
+sdk_http.c  
+Warning[Pa050]: non-native end of line sequence detected (this diagnostic is only issued once) C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\sdk_http.c 1 
+Warning[Pe223]: function "xgui_GetLineTop" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\sdk_http.c 74 
+Warning[Pe167]: argument of type "unsigned char *" is incompatible with parameter of type "char *" C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\sdk_http.c 140 
+Warning[Pe550]: variable "pdata" was set but never used C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\sdk_http.c 422 
+Warning[Pe550]: variable "m_connect_time" was set but never used C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\sdk_http.c 7 
+Warning[Pe177]: function "json_test" was declared but never referenced C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\sdk_http.c 416 
+sdk_img.c  
+Warning[Pa050]: non-native end of line sequence detected (this diagnostic is only issued once) C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\sdk_img.c 1 
+sdk_log.c  
+Warning[Pa050]: non-native end of line sequence detected (this diagnostic is only issued once) C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\sdk_log.c 1 
+Warning[Pe167]: argument of type "char *" is incompatible with parameter of type "unsigned char const *" C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\sdk_log.c 21 
+Warning[Pe223]: function "xgui_GetLineTop" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\sdk_log.c 30 
+sdk_ntag.c  
+Warning[Pa050]: non-native end of line sequence detected (this diagnostic is only issued once) C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\sdk_ntag.c 1 
+Warning[Pe223]: function "xgui_GetLineTop" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\sdk_ntag.c 132 
+sdk_showqr.c  
+Warning[Pa050]: non-native end of line sequence detected (this diagnostic is only issued once) C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\sdk_showqr.c 1 
+Warning[Pe047]: incompatible redefinition of macro "NULL" (declared at line 22 of "C:\Program Files (x86)\IAR Systems\Embedded Workbench 6.5\arm\inc\c\stdio.h") C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\sdk\inc\pub\qrencode\QrGlobalVar.h 17 
+Warning[Pe223]: function "xgui_GetLineTop" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\sdk_showqr.c 340 
+Warning[Pe550]: variable "nQr_width" was set but never used C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\sdk_showqr.c 285 
+Warning[Pe223]: function "xgui_GetLineTop" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\sdk_showqr.c 441 
+Warning[Pe177]: variable "i" was declared but never referenced C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\sdk_showqr.c 363 
+Warning[Pe550]: variable "nQr_width" was set but never used C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\sdk_showqr.c 369 
+sdk_timer.c  
+Warning[Pa050]: non-native end of line sequence detected (this diagnostic is only issued once) C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\sdk_timer.c 1 
+sdk_xgui.c  
+Warning[Pa050]: non-native end of line sequence detected (this diagnostic is only issued once) C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\sdk_xgui.c 1 
+Warning[Pe223]: function "scan_page_proc" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\sdk_xgui.c 164 
+Warning[Pe223]: function "scan_page_proc" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\sdk_xgui.c 218 
+Warning[Pe223]: function "write_profile_string" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\sdk_xgui.c 234 
+Warning[Pe223]: function "write_profile_int" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\sdk_xgui.c 235 
+Warning[Pe177]: variable "tid" was declared but never referenced C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\sdk_xgui.c 265 
+Warning[Pe223]: function "keySoundSet_Show_test" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\sdk_xgui.c 295 
+Warning[Pe223]: function "tts_volume_page" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\sdk_xgui.c 299 
+Warning[Pe223]: function "lcdLightSet_Show" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\sdk_xgui.c 303 
+Warning[Pe223]: function "PowerDownTimeSet_Show" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\sdk_xgui.c 307 
+Warning[Pe223]: function "upay_barscan" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\sdk_xgui.c 316 
+Warning[Pe223]: function "VoiceTest" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\sdk_xgui.c 344 
+Warning[Pe223]: function "BluetoothTest" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\sdk_xgui.c 348 
+Warning[Pe223]: function "argot_action" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\sdk_xgui.c 382 
+Warning[Pe177]: variable "ret" was declared but never referenced C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\sdk_xgui.c 257 
+Warning[Pe177]: variable "buff" was declared but never referenced C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\sdk_xgui.c 258 
+Warning[Pe177]: variable "pos" was declared but never referenced C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\sdk_xgui.c 259 
+Warning[Pe167]: argument of type "char *" is incompatible with parameter of type "byte *" C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\sdk_xgui.c 401 
+Warning[Pe167]: argument of type "char *" is incompatible with parameter of type "byte *" C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\sdk_xgui.c 411 
+Warning[Pe223]: function "xgui_GetLineTop" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\sdk_xgui.c 435 
+Warning[Pe167]: argument of type "char *" is incompatible with parameter of type "unsigned char *" C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\sdk_xgui.c 435 
+Warning[Pe223]: function "xgui_GetLineTop" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\sdk_xgui.c 440 
+Warning[Pe223]: function "xgui_GetLineTop" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\sdk_xgui.c 471 
+Warning[Pe167]: argument of type "char *" is incompatible with parameter of type "unsigned char *" C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\sdk_xgui.c 474 
+Warning[Pe223]: function "xgui_GetLineTop" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\sdk_xgui.c 487 
+Warning[Pe940]: missing return statement at end of non-void function "d_key_proc" C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\sdk_xgui.c 545 
+Warning[Pe223]: function "write_profile_int" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\sdk_xgui.c 549 
+Warning[Pe223]: function "xgui_GetLineTop" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\sdk_xgui.c 564 
+Warning[Pe167]: argument of type "char *" is incompatible with parameter of type "unsigned char *" C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\sdk_xgui.c 796 
+Warning[Pe223]: function "argot_keyinput" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\sdk_xgui.c 843 
+test_pub.c  
+Warning[Pa050]: non-native end of line sequence detected (this diagnostic is only issued once) C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\test\test_pub.c 1 
+Warning[Pe223]: function "atc_csq" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\test\test_pub.c 44 
+Warning[Pe223]: function "atc_cpin" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\test\test_pub.c 45 
+Warning[Pe223]: function "mf_boot_ver" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\test\test_pub.c 54 
+Warning[Pe181]: argument is incompatible with corresponding format string conversion C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\test\test_pub.c 54 
+Warning[Pe223]: function "mf_hal_ver" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\test\test_pub.c 55 
+Warning[Pe181]: argument is incompatible with corresponding format string conversion C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\test\test_pub.c 55 
+Warning[Pe223]: function "mf_fatfs_ver" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\test\test_pub.c 56 
+Warning[Pe181]: argument is incompatible with corresponding format string conversion C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\test\test_pub.c 56 
+Warning[Pe223]: function "mf_fal_ver" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\test\test_pub.c 57 
+Warning[Pe181]: argument is incompatible with corresponding format string conversion C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\test\test_pub.c 57 
+Warning[Pe223]: function "mf_hardware_ver" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\test\test_pub.c 58 
+Warning[Pe223]: function "atc_model_ver" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\test\test_pub.c 70 
+Warning[Pe181]: argument is incompatible with corresponding format string conversion C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\test\test_pub.c 70 
+Warning[Pe223]: function "wifi_model_ver" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\test\test_pub.c 78 
+Warning[Pe181]: argument is incompatible with corresponding format string conversion C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\test\test_pub.c 78 
+Warning[Pe223]: function "xgui_GetLineTop" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\test\test_pub.c 111 
+Warning[Pe223]: function "Ex_Str_HexToAsc" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\test\test_pub.c 141 
+Warning[Pe177]: variable "rc" was declared but never referenced C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\test\test_pub.c 93 
+upay_barscan.c  
+Warning[Pa050]: non-native end of line sequence detected (this diagnostic is only issued once) C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\upay_barscan.c 1 
+Warning[Pe223]: function "sprintf" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\upay_barscan.c 20 
+Warning[Pe223]: function "memset" declared implicitly C:\Users\Pranav Kapoor\Downloads\Z50SDK20250313_fresh\MF-XPOS_SDK-master\apps\DEMO_QM\QR_MF67\src\upay_barscan.c 22 
+ 
+Total number of errors: 1 
+Total number of warnings: 213 
