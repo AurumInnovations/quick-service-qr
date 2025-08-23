@@ -409,8 +409,9 @@ int mpay_pub_get_json(struct json_object * rootobj , char *key , char * val, int
 
 		if(ret>=strlen(p_ucs)){ //Conversion failed
 			strcpy(val,p_ucs);
-			// Removed free(p_ucs) and free(p_asc) here to prevent double free
-			// Removed return 1; to ensure consistent freeing at the end of the block
+			free(p_ucs);
+			free(p_asc);
+			return 1;
 		}
 
 		if(strlen(p_asc) < size){
@@ -421,13 +422,9 @@ int mpay_pub_get_json(struct json_object * rootobj , char *key , char * val, int
 			val[size] = 0;
 		}
 
-		// Free allocated memory only if it was allocated
-		if (p_ucs != NULL) {
-			free(p_ucs);
-		}
-		if (p_asc != NULL) {
-			free(p_asc);
-		}
+
+		free(p_ucs);
+		free(p_asc);
 		ret = 1;
 	}
 

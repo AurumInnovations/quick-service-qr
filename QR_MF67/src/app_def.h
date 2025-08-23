@@ -53,8 +53,6 @@
 
 #include "cJSON/cJSON.h"
 
-#define MQTT_TOPIC "mqtt_topic"
-
 #define SOCKET_SUPPORT  1
 //#define BLUETOOTH_MODE_SET 1 //set bluetooth mode to PIN-need
 //#define DATAVAN 1

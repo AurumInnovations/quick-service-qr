@@ -2,7 +2,6 @@
 
 void sdk_http_test();
 void sdk_https_test();
-void sdk_ota_update(const char *url);
 
 typedef enum {
 	SOCK_INDEX0,

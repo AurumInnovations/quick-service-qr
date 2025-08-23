@@ -37,27 +37,6 @@ static int m_payload_lock = -1;
 #define MQTT_LOCK	 if(m_payload_lock == -1){m_payload_lock =(int)OSSemCreate((unsigned short)1);}  {unsigned char nErr; OSSemPend((OS_EVENT *)m_payload_lock,TIMEOUT_INFINITE, &nErr); }
 #define	MQTT_UNLOCK	 OSSemPost((OS_EVENT *)m_payload_lock);
 
-void mqtt_get_status_text(char* buffer, int len)
-{
-    if (buffer && len > 0)
-    {
-        MQTT_LOCK
-        strncpy(buffer, (const char*)s_statustext, len - 1);
-        buffer[len - 1] = '\0';
-        MQTT_UNLOCK
-    }
-}
-
-e_status mqtt_get_status(void)
-{
-	e_status current_status;
-	// Use a lock to ensure thread-safe access to the shared status variable
-	MQTT_LOCK
-	current_status = s_status;
-	MQTT_UNLOCK
-	return current_status;
-}
-
 void resetMQTT()
 {
     APP_TRACE("resetMQTT");
@@ -71,18 +50,12 @@ void resetMQTT()
 
 static void json_get_str_by_key(cJSON* root, const char *key,char *val,int len)
 {
+  int len_temp = 0;
   cJSON* temp = cJSON_GetObjectItem(root, key);
 
-  // Ensure the buffer is always cleared and null-terminated
-  if (val && len > 0) {
-      val[0] = '\0';
-  } else {
-      return; // Invalid arguments
-  }
-
-  if (temp != NULL && temp->type == cJSON_String)
+  if(temp != NULL)
   {
-    int len_temp = strlen(temp->valuestring);
+    len_temp = strlen(temp->valuestring);
     len_temp = len_temp > len ? len : len_temp;
     memcpy(val,temp->valuestring,len_temp);
   }
@@ -93,7 +66,7 @@ static int json_get_int_by_key(cJSON* root, const char *key)
   int ret = 0;
   cJSON* temp = cJSON_GetObjectItem(root, key);
 
-  if(temp != NULL && temp->type == cJSON_String)
+  if(temp != NULL)
   {
     ret = atoi(temp->valuestring);
   }
@@ -107,28 +80,20 @@ void mqtt_comm_messageArrived_qr(MessageData* md)
 {   
   MQTTMessage* m = md->message;
 
-  if (m->payloadlen > 0)
+  if ( m->payloadlen>0)
   {
-    char* payload_copy = NULL;
-    cJSON* proot = NULL;
-    const char *error_ptr = NULL;
+    MQTT_LOCK
+    unsigned char *s_payload = 0;
+    unsigned int s_payloadlen = 0;
 
-    // Allocate a buffer to hold the payload and a null terminator
-    payload_copy = (char*)MALLOC(m->payloadlen + 1);
-    if (payload_copy == NULL) {
-        APP_TRACE("Failed to allocate memory for MQTT payload copy\r\n");
-        return;
-    }
+    s_payloadlen= m->payloadlen;
+    s_payload = MALLOC(s_payloadlen+1);	
+    memcpy(s_payload, (char*)m->payload ,s_payloadlen );
+    s_payload[s_payloadlen] = 0;
+    APP_TRACE("mqtt_comm_messageArrived_qr recv:\r\n %s\r\n",s_payload);
 
-    // Copy the payload and null-terminate it
-    memcpy(payload_copy, m->payload, m->payloadlen);
-    payload_copy[m->payloadlen] = '\0';
-
-    APP_TRACE("mqtt_comm_messageArrived_qr recv: %s\r\n", payload_copy);
-
-    MQTT_LOCK;
-    proot = cJSON_Parse(payload_copy);
-    
+    cJSON* proot = cJSON_Parse(s_payload);
+    FREE(s_payload);
     if(proot != NULL)                   
     {                            
       st_qr_data* mpos_qr_data = mpos_func_get_qr_data();
@@ -177,18 +142,6 @@ void mqtt_config_init()
 
 	memset(&g_mqttConfig, 0x00, sizeof(st_mqtt_config));
 
-	// Read IP and Port into the global config struct
-	get_setting_str(MQTT_HOST_IP, g_mqttConfig.ip, sizeof(g_mqttConfig.ip));
-	g_mqttConfig.port = get_setting_int(MQTT_HOST_PORT);
-
-	// Fallback to defaults if settings are invalid
-	if (strlen(g_mqttConfig.ip) < 7 || g_mqttConfig.port <= 0)
-	{
-		APP_TRACE("No valid MQTT config found, using defaults.");
-		strcpy(g_mqttConfig.ip, "192.168.86.249");
-		g_mqttConfig.port = 1883;
-	}
-
 	g_mqttConfig.keepAliveInterval = get_setting_int(MQTT_HEART_TIME);
 	if (g_mqttConfig.keepAliveInterval <= 0)
 	{
@@ -215,39 +168,36 @@ void mqtt_config_init()
 	}
 
 	strcpy((char*)g_mqttConfig.clientID, cid);
-
-	// Read username and password from settings, with a fallback to default credentials.
-	get_setting_str("mqtt_username", (char*)g_mqttConfig.username, sizeof(g_mqttConfig.username));
-	get_setting_str("mqtt_password", (char*)g_mqttConfig.mqPassword, sizeof(g_mqttConfig.mqPassword));
-
-	if (strlen(g_mqttConfig.username) == 0)
-	{
-		strcpy((char*)g_mqttConfig.username, "testuser");
-	}
-	if (strlen(g_mqttConfig.mqPassword) == 0)
-	{
-		strcpy((char*)g_mqttConfig.mqPassword, "testuser");
-	}
-	snprintf(g_mqttConfig.topic, sizeof(g_mqttConfig.topic), "/devices/%s/qr", g_mqttConfig.clientID);
+	strcpy((char*)g_mqttConfig.username, cid);
+	snprintf(g_mqttConfig.topic, sizeof(g_mqttConfig.topic), "/ota/%s/%s/update", g_mqttConfig.hmac_key, g_mqttConfig.clientID);
 	
-	// The HMAC calculation is no longer needed for simple authentication
+	memset(hmac_payload, 0, sizeof(hmac_payload));
+	sprintf(hmac_payload, "clientId{%s}.{%s}%s%s%s", 
+		g_mqttConfig.clientID, g_mqttConfig.clientID, g_mqttConfig.clientID, g_mqttConfig.hmac_key, "2524608000000");
+	HMACcalculate(hmac_payload, (char*)g_mqttConfig.hmac_secret, g_mqttConfig.mqPassword);
+	APP_TRACE("mqtt payload:%s", hmac_payload);
+	//APP_TRACE_BUFF_TIP(g_mqttConfig.mqPassword, 128, "password");
 }
 
 static int mqtt_comm_run() 
 {                
 	int rc = 0;
+	char ip[64]={0};
+	int port= 0;
 	static int s_show_once = 0;
 	
-  strcpy(s_statustext,"Subscribing..");
+  strcpy(s_statustext,"Connecting..");
 	s_status = status_Connecting;
 
 	APP_TRACE("mqtt_comm_run Connecting\r\n");
+	get_setting_str(MQTT_HOST_IP,ip,sizeof(ip));
+	port =get_setting_int(MQTT_HOST_PORT);
 
 	memset(&n,0x00,sizeof(n));
-	n.tls = 0; // Set to 0 for standard MQTT (port 1883), 1 for MQTTS/TLS
+	n.tls = 1;
   NetworkInit(&n);       
 #ifndef CLIENT_CRT
-	rc = NetworkConnect(&n, g_mqttConfig.ip, g_mqttConfig.port);
+	rc = NetworkConnect(&n, ip, port);
  #else
 
 #endif
@@ -291,7 +241,6 @@ static int mqtt_comm_run()
 
     rc = MQTTConnect(&c, &data);
     s_client = &c;
-    FREE(out); // Free the memory allocated by cJSON_Print
     APP_TRACE("mqtt_comm_run rc from connect:%d\r\n", rc);		                              
                 
     rc = MQTTSubscribe(&c, g_mqttConfig.topic, 0, mqtt_comm_messageArrived_qr);
@@ -301,8 +250,6 @@ static int mqtt_comm_run()
     if(rc == 0) 
     {
       APP_TRACE("mqtt subscribe success!\r\n");  
-      sprintf((char*)s_statustext, "Subscribed");
-      s_status = status_Recving; // Set status to connected/receiving
       while( MQTTIsConnected(&c) )
       {					
         rc = MQTTYield(&c, 1000);
@@ -320,13 +267,13 @@ static int mqtt_comm_run()
     }                
     else
     {
-		  sprintf((char*)s_statustext, "Subscription Failed: %d", rc);
+		  sprintf(s_statustext,"Connect,%d",rc);
     }
     NetworkDisconnect(&n);
 	}	
 	else
   {
-    sprintf((char*)s_statustext, "Network Error: %d", rc);
+    printf(s_statustext,"Network anomaly,%d",rc);
     if (s_show_once == 0)
     {
 				s_show_once = 1;
@@ -348,7 +295,7 @@ static void mqtt_comm_task(void * p)
 			if ( s_status != status_Paused )
 			{
 				s_status = status_Paused;
-				sprintf((char*)s_statustext, "Paused..");
+				sprintf(s_statustext,"Paused..");
 			}
 			Sys_Sleep(100);
 			continue;
@@ -358,7 +305,7 @@ static void mqtt_comm_task(void * p)
 
 		//Waiting network..
 		if ( net_func_link_state() == 0 ){
-			sprintf((char*)s_statustext, "Waiting for Network..");
+			sprintf(s_statustext,"Wait network..");
 			s_status = status_WaitNetwork;
 			Sys_Sleep(1000);
 			continue;
@@ -385,9 +332,11 @@ int mqtt_proc_init()
 	s_paused = 0;
 	s_status = status_Connecting;
 
-	sprintf((char*)s_statustext, "Loading..");
+	sprintf(s_statustext,"Loading..");
 
 	osl_task_create((void*)mqtt_comm_task,_MQTT_TASK_PRIO,pTaskStk ,_MQTT_TASK_SIZE );
         
 	return 0;
 }
+
+

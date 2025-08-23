@@ -105,15 +105,15 @@ void pagepaint(char *title, char *msg, int logo)
 
 	if (logo == 1)
 	{
-		// pbmp = (char *)gui_load_bmp_ex(LOGOIMG , &logowidth , &logoheight, &logocolor);
+		pbmp = (char *)gui_load_bmp_ex(LOGOIMG , &logowidth , &logoheight, &logocolor);
 
-		// logoleft = (gui_get_width()-logowidth)/2;
-		// logotop = GUI_LINE_TOP(1)+5;
+		logoleft = (gui_get_width()-logowidth)/2;
+		logotop = GUI_LINE_TOP(1)+5;
 
-		// if (pbmp != 0){
-		// 	gui_out_bits_ex(logoleft, logotop, pbmp , logowidth , logoheight , 1 , logocolor);
-		// 	Util_Free(pbmp);
-		// }	
+		if (pbmp != 0){
+			gui_out_bits_ex(logoleft, logotop, pbmp , logowidth , logoheight , 1 , logocolor);
+			Util_Free(pbmp);
+		}	
 	} 
 	else
 	{

@@ -7,104 +7,10 @@
 #include "atc/inc/atc_pub.h"
 #include "sdk_ntag.h"
 #include "sdk_driver.h"
-#include "mqtt/mqtt_proc.h"
 
 
 LIB_EXPORT int tms_update(const char *file);
 
-// --- Start of UK Time Zone Logic (GMT/BST) ---
-
-// Helper function to check if a year is a leap year.
-static int is_leap(int year) {
-    return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
-}
-
-// Helper function to get the day of the week (0=Sunday, 1=Monday, ..., 6=Saturday).
-// Using Tomohiko Sakamoto's algorithm for the Gregorian calendar.
-static int day_of_week(int y, int m, int d) {
-    static int t[] = {0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4};
-    if (m < 3) {
-        y--;
-    }
-    return (y + y/4 - y/100 + y/400 + t[m-1] + d) % 7;
-}
-
-// Determines if a given UTC date/time is within British Summer Time (BST).
-// BST starts 1:00 UTC on the last Sunday of March.
-// BST ends 1:00 UTC on the last Sunday of October.
-static int is_bst(const struct rtc_time* utc_dt) {
-    int year = utc_dt->tm_year;
-    int month = utc_dt->tm_mon;
-    int day = utc_dt->tm_mday;
-    int hour = utc_dt->tm_hour;
-
-    // Not in March-October range, so definitely not BST.
-    if (month < 3 || month > 10) {
-        return 0;
-    }
-    // Within April-September range, definitely BST.
-    if (month > 3 && month < 10) {
-        return 1;
-    }
-
-    // It's either March or October, need to check the last Sunday rule.
-    int last_day_of_month = 31; // Both March and October have 31 days.
-
-    // Find the date of the last Sunday of the month.
-    int dow_last_day = day_of_week(year, month, last_day_of_month);
-    int last_sunday_date = last_day_of_month - dow_last_day;
-
-    if (month == 3) {
-        // BST starts on the last Sunday of March at 1:00 UTC.
-        if (day > last_sunday_date) return 1;
-        if (day == last_sunday_date && hour >= 1) return 1;
-        return 0;
-    }
-
-    if (month == 10) {
-        // BST ends on the last Sunday of October at 1:00 UTC.
-        if (day > last_sunday_date) return 0;
-        if (day == last_sunday_date && hour >= 1) return 0;
-        return 1;
-    }
-
-    return 0; // Should not be reached.
-}
-
-// Adjusts a UTC time structure to local UK time (GMT or BST).
-// It handles date rollovers when adding an hour for BST.
-static void adjust_time_for_uk(struct rtc_time* dt) {
-    // First, check if it's BST. If not, the time is already GMT (which is UTC), so do nothing.
-    if (!is_bst(dt)) {
-        return;
-    }
-
-    // It's BST, so add one hour to the UTC time.
-    dt->tm_hour++;
-
-    // Handle hour rollover (e.g., 23:xx UTC -> 00:xx BST on the next day)
-    if (dt->tm_hour >= 24) {
-        dt->tm_hour = 0;
-        dt->tm_mday++;
-
-        // Define the number of days in each month
-        int days_in_month[] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-        if (is_leap(dt->tm_year)) {
-            days_in_month[2] = 29; // Adjust for leap year
-        }
-
-        // Handle day/month/year rollovers
-        if (dt->tm_mday > days_in_month[dt->tm_mon]) {
-            dt->tm_mday = 1;
-            dt->tm_mon++;
-
-            if (dt->tm_mon > 12) {
-                dt->tm_mon = 1;
-                dt->tm_year++;
-            }
-        }
-    }
-}
 #define LOGOIMG "data\\logo.bmp"
 
 #define MAIN_MENU_PAGE	"Main"
@@ -161,7 +67,6 @@ static st_gui_menu_item_def _menu_def[] = {
 #ifdef SOCKET_SUPPORT
 	{"Settings",	"Wifi Set",		"Remote set"},
 	{"Settings",	"Wifi Scan",	""},
-	{"Settings",	"MQTT Set (Scan)",	""},
 #endif
 #ifdef DEV_MF67_A10
 	{"Settings",	"Net Select",	""},
@@ -171,8 +76,7 @@ static st_gui_menu_item_def _menu_def[] = {
 	{"Settings",	"TTS Volume",	""},
 	{"Settings",	"Lcd Light",	""},
 	{"Settings",	"Power Time",	""}, 
-	{"Settings",	"Open Log",		""},
-	{"Settings",	"System Update",""},
+	{"Settings",	"Open Log",		""},	
 };
 
 void set_msg_arrived(int arrived)
@@ -198,48 +102,40 @@ static int getversions( char *buff)
 	return i;
 }
 
-int extract_value(const char *input, const char *key, char *output, size_t output_size) 
-{
-	const char *p = input;
-	size_t key_len;
-
+int extract_value(const char *input, const char *key, char *output, size_t output_size) {
 	if (!input || !key || !output || output_size == 0) {
+		return -1; // parameter error
+	}
+
+	char *copy = strdup(input);
+	if (!copy) {
 		return -1;
 	}
 
-	key_len = strlen(key);
-	output[0] = '\0';
+	char *saveptr = NULL;
+	char *token = strtok(copy, ";");
+	int found = 0;
 
-	while (*p) {
-		// Find the key part: key + ':'
-		if (strncmp(p, key, key_len) == 0 && p[key_len] == ':') {
-			const char *value_start = p + key_len + 1;
-			const char *value_end = strchr(value_start, ';');
-			size_t value_len;
+	while (token != NULL) {
+		char *colon = strchr(token, ':');
+		if (colon) {
+			*colon = '\0'; 
+			char *current_key = token;
+			char *current_value = colon + 1;
 
-			if (value_end) {
-				value_len = value_end - value_start;
-			} else {
-				value_len = strlen(value_start);
+			if (strcmp(current_key, key) == 0) {
+				strncpy(output, current_value, output_size - 1);
+				output[output_size - 1] = '\0';
+				APP_TRACE("extract_value key[%s]:%s", key, output);
+				found = 1;
+				break;
 			}
-
-			if (value_len >= output_size) {
-				value_len = output_size - 1;
-			}
-
-			memcpy(output, value_start, value_len);
-			output[value_len] = '\0';
-			APP_TRACE("extract_value key[%s]:%s", key, output);
-			return 0; // Found
 		}
-		p = strchr(p, ';');
-		if (p) {
-			p++; // Skip the semicolon
-		} else {
-			break; // No more semicolons
-		}
+		token = strtok(NULL, ";");
 	}
-	return -1; // Not found
+
+	free(copy);
+	return found ? 0 : -1;
 }
 
 void wifi_connect_scan()
@@ -291,59 +187,6 @@ void wifi_connect_scan()
 	{
 		gui_messagebox_show("Error", "Incorrect code, please check and try again", "", "OK", 1000 * 10);
 	}
-}
-
-void mqtt_config_scan()
-{
-	char* scanCode = NULL;
-	char host[64] = {0};
-	char port_str[8] = {0};
-	char key[32] = {0};
-	char secret[32] = {0};
-	char username[64] = {0};
-	char password[64] = {0};
-	char topic[128] = {0};
-	int ret = 0;
-
-	scanCode = MALLOC(512);
-	if (!scanCode) return;
-
-	memset(scanCode, 0, 512);
-	ret = scan_page_proc("Scan MQTT Config", scanCode, 512, 10000);
-
-	if (ret > 0)
-	{
-		// Example QR Code Content:
-		// H:your.broker.com;O:1883;U:user;P:pass;K:your_key;S:your_secret;T:/devices/%s/qr
-		extract_value(scanCode, "H", host, sizeof(host));
-		extract_value(scanCode, "O", port_str, sizeof(port_str));
-		extract_value(scanCode, "K", key, sizeof(key));
-		extract_value(scanCode, "S", secret, sizeof(secret));
-		extract_value(scanCode, "U", username, sizeof(username));
-		extract_value(scanCode, "P", password, sizeof(password));
-		extract_value(scanCode, "T", topic, sizeof(topic));
-
-		if (strlen(host) > 0 && strlen(port_str) > 0)
-		{
-			write_profile_string("set", MQTT_HOST_IP, host, SYSTEM_PROFILE);
-			write_profile_int("set", MQTT_HOST_PORT, atoi(port_str), SYSTEM_PROFILE);
-			if(strlen(key) > 0) write_profile_string("set", MQTT_PRODUCT_KEY, key, SYSTEM_PROFILE);
-			if(strlen(secret) > 0) write_profile_string("set", MQTT_PRODUCT_SECRET, secret, SYSTEM_PROFILE);
-			if(strlen(username) > 0) write_profile_string("set", "mqtt_username", username, SYSTEM_PROFILE);
-			if(strlen(password) > 0) write_profile_string("set", "mqtt_password", password, SYSTEM_PROFILE);
-			if(strlen(topic) > 0) write_profile_string("set", MQTT_TOPIC, topic, SYSTEM_PROFILE);
-
-			gui_messagebox_show("Success", "Settings updated.\nRestarting MQTT...", "", "OK", 2000);
-			mqtt_config_init(); // Reload configuration from settings
-			resetMQTT();        // Force disconnect, the background task will reconnect
-		}
-		else
-		{
-			gui_messagebox_show("Error", "Invalid QR code format.", "", "OK", 5000);
-		}
-	}
-
-	FREE(scanCode);
 }
 
 static int _menu_proc(char *pid)
@@ -458,10 +301,6 @@ static int _menu_proc(char *pid)
 	{
 		wifi_connect_scan();
 	}
-	else if (strcmp(pid, "MQTT Set (Scan)") == 0)
-	{
-		mqtt_config_scan();
-	}
 #endif
     else if(strcmp(pid, "Buzzer") == 0)
     {
@@ -481,11 +320,6 @@ static int _menu_proc(char *pid)
 		PN5180_ntag_test();
 	}
 #endif
-	else if (strcmp(pid, "System Update") == 0)
-	{
-		// NOTE: Replace with your actual firmware URL
-		sdk_ota_update("http://192.168.86.30:8080/update/update.pack");
-	}
 #endif
 	return 0;
 }
@@ -496,57 +330,20 @@ static int _menu_proc(char *pid)
 void get_yyyymmdd_str(char *buff)
 {
 	struct rtc_time dt;
-	char tmp[20] = {0};
+	char tmp[20]={0};
 	Sys_GetDateTime(tmp);
-	// Parse the full date and time to correctly determine the timezone offset
-	sscanf(tmp, "%04d%02d%02d%02d%02d%02d", &dt.tm_year, &dt.tm_mon, &dt.tm_mday, &dt.tm_hour, &dt.tm_min, &dt.tm_sec);
-
-	// Adjust the time from UTC to local UK time (GMT/BST)
-	adjust_time_for_uk(&dt);
-
+	sscanf(tmp,"%04d%02d%02d",&dt.tm_year, &dt.tm_mon, &dt.tm_mday);
 	sprintf(buff , "%04d-%02d-%02d", dt.tm_year, dt.tm_mon, dt.tm_mday);
 }
 
 
 void get_hhmmss_str(char *buff)
 {
-	struct rtc_time dt;
-	char tmp[20] = {0};
+	struct rtc_time date_time;
+	char tmp[20]={0};
 	Sys_GetDateTime(tmp);
-	sscanf(tmp, "%04d%02d%02d%02d%02d%02d", &dt.tm_year, &dt.tm_mon, &dt.tm_mday, &dt.tm_hour, &dt.tm_min, &dt.tm_sec);
-
-	// Adjust the time from UTC to local UK time (GMT/BST)
-	adjust_time_for_uk(&dt);
-
-	sprintf(buff, "%02d:%02d:%02d", dt.tm_hour, dt.tm_min, dt.tm_sec);
-}
-
-static void draw_status_line(int y_line)
-{
-    char mqtt_status_text[64] = {0};
-    e_status mqtt_status;
-    char *icon_path = NULL;
-    char *pbmp = NULL;
-    int logowidth, logoheight, logocolor;
-
-    // Get MQTT status and select icon
-    mqtt_status = mqtt_get_status();
-    mqtt_get_status_text(mqtt_status_text, sizeof(mqtt_status_text));
-    icon_path = (mqtt_status == status_Recving) ? "data\\connected.bmp" : "data\\disconnected.bmp";
-
-    // Load icon and draw status line
-    // pbmp = (char *)gui_load_bmp_ex(icon_path, &logowidth, &logoheight, &logocolor);
-    // if (pbmp) {
-    //     int text_width = gui_get_text_width(mqtt_status_text);
-    //     int total_width = logowidth + 4 + text_width; // 4px spacing
-    //     int start_x = (gui_get_width() - total_width) / 2;
-    //     gui_out_bits_ex(start_x, GUI_LINE_TOP(y_line), pbmp, logowidth, logoheight, 0, logocolor);
-    //     gui_text_out(start_x + logowidth + 4, GUI_LINE_TOP(y_line), mqtt_status_text);
-    //     FREE(pbmp);
-    // } else {
-        // Fallback if icon is missing
-        gui_textout_line_center(mqtt_status_text, GUI_LINE_TOP(y_line));
-    // }
+	sscanf(tmp,"%04d%02d%02d%02d%02d%02d",&date_time.tm_year, &date_time.tm_mon, &date_time.tm_mday,&date_time.tm_hour, &date_time.tm_min, &date_time.tm_sec);
+	sprintf(buff, "%02d:%02d:%02d", date_time.tm_hour, date_time.tm_min, date_time.tm_sec);
 }
 
 void standby_pagepaint()
@@ -570,18 +367,18 @@ void standby_pagepaint()
 		gui_begin_batch_paint();
 		gui_set_win_rc();
 		gui_clear_dc();
-#if 0 // Disabled to prevent file open errors for missing logo.bmp
+#if 1
 		{
-			// pbmp = (char *)gui_load_bmp_ex(LOGOIMG , &logowidth , &logoheight, &logocolor);
+			pbmp = (char *)gui_load_bmp_ex(LOGOIMG , &logowidth , &logoheight, &logocolor);
 
-			// logoleft = (gui_get_width()-logowidth)/2;
+			logoleft = (gui_get_width()-logowidth)/2;
 
-			// logotop = GUI_LINE_TOP(1);
+			logotop = GUI_LINE_TOP(1);
 
-			// if (pbmp != 0){
-			// 	gui_out_bits_ex(logoleft, logotop, pbmp , logowidth , logoheight , 0 , logocolor);
-			// 	FREE(pbmp);
-			// }
+			if (pbmp != 0){
+				gui_out_bits_ex(logoleft, logotop, pbmp , logowidth , logoheight , 0 , logocolor);
+				FREE(pbmp);
+			}
 		}
 #endif
 #ifndef DEV_MF67_A10
@@ -589,13 +386,11 @@ void standby_pagepaint()
 		gui_textout_line_center(data, GUI_LINE_TOP(8));
 		get_hhmmss_str(data);	
 		gui_textout_line_center(data, GUI_LINE_TOP(9));
-		draw_status_line(10);
 #else 
 		get_yyyymmdd_str(data);	
-		gui_textout_line_center(data, GUI_LINE_TOP(5));
+		gui_textout_line_center(data, GUI_LINE_TOP(6));
 		get_hhmmss_str(data);	
-		gui_textout_line_center(data, GUI_LINE_TOP(6));	
-		draw_status_line(7);
+		gui_textout_line_center(data, GUI_LINE_TOP(7));	
 #endif
 		gui_end_batch_paint();
 	}
@@ -657,22 +452,44 @@ static void main_page_set_test_menu(int flag)
 	write_profile_int("set", "Production test", flag, SYSTEM_PROFILE);
 }
 
-#define MPOS_TEXT_SHOW_LINE_LEN 16
 static void mpos_text_show(char* text, int text_len)
 {
-    char txt_temp[MPOS_TEXT_SHOW_LINE_LEN + 1] = {0};
-    int lines = (text_len + MPOS_TEXT_SHOW_LINE_LEN - 1) / MPOS_TEXT_SHOW_LINE_LEN;
-    int start_line_y = 4; // Center the text vertically
-    int i;
-
-    for (i = 0; i < lines && i < 4; ++i) { // Display up to 4 lines
-        int len_to_copy = text_len > MPOS_TEXT_SHOW_LINE_LEN ? MPOS_TEXT_SHOW_LINE_LEN : text_len;
-        memcpy(txt_temp, text, len_to_copy);
-        txt_temp[len_to_copy] = '\0';
-        gui_textout_line_center(txt_temp, GUI_LINE_TOP(start_line_y + i));
-        text += len_to_copy;
-        text_len -= len_to_copy;
-    }
+	char txt_temp[17] = {0};
+	if (text_len < 17)
+	{
+		memcpy(txt_temp, text, text_len);
+		gui_textout_line_center(txt_temp, GUI_LINE_TOP(5));
+	}
+	else if (text_len > 16 && text_len < 33)
+	{
+		memcpy(txt_temp, text, 16);
+		gui_textout_line_center(txt_temp, GUI_LINE_TOP(4));
+		memset(txt_temp, 0x00, sizeof(txt_temp));
+		memcpy(txt_temp, text + 16, text_len - 16);
+		gui_textout_line_center(txt_temp, GUI_LINE_TOP(5));
+	}
+	else if (text_len > 32 && text_len < 49)
+	{
+		memcpy(txt_temp, text, 16);
+		gui_textout_line_center(txt_temp, GUI_LINE_TOP(3));
+		memcpy(txt_temp, text + 16, 16);
+		gui_textout_line_center(txt_temp, GUI_LINE_TOP(4));
+		memset(txt_temp, 0x00, sizeof(txt_temp));
+		memcpy(txt_temp, text + 32, text_len - 32);
+		gui_textout_line_center(txt_temp, GUI_LINE_TOP(5));
+	}
+	else
+	{
+		memcpy(txt_temp, text, 16);
+		gui_textout_line_center(txt_temp, GUI_LINE_TOP(3));
+		memcpy(txt_temp, text + 16, 16);
+		gui_textout_line_center(txt_temp, GUI_LINE_TOP(4));
+		memcpy(txt_temp, text + 32, 16);
+		gui_textout_line_center(txt_temp, GUI_LINE_TOP(5));
+		memset(txt_temp, 0x00, sizeof(txt_temp));
+		memcpy(txt_temp, text + 48, text_len - 45);
+		gui_textout_line_center(txt_temp, GUI_LINE_TOP(6));
+	}
 }
 #ifdef BLUETOOTH_MODE_SET
 //Bluetooth set
@@ -792,14 +609,12 @@ void sdk_main_page()
 	char time_last[20];
 	int i;
 	int showTime = -1;
-	st_qr_data  * mpos_qr_data = NULL;
+	//st_qr_data * qr_data = NULL;
+	st_qr_data  * mpos_qr_data = mpos_func_get_qr_data();
  	static char dinit = 0;
-    int nTimer;
-    unsigned int nErrorCode; 
-	unsigned int tick1;
-	static unsigned int qr_display_timer = 0;
+        int nTimer;
+        unsigned int nErrorCode; 
 		
-	mpos_qr_data = mpos_func_get_qr_data();
 		gui_set_font_mode(1);
 		
 		if(gui_get_width() == 240){
@@ -865,33 +680,54 @@ void sdk_main_page()
 				}
 				if (strlen(mpos_qr_data->qrdata) > 0)
  				{
-					// If the timer has not been started for this QR code yet
-					if (qr_display_timer == 0)
-					{
-						// Start the timer using the showTime from the MQTT message.
-						// Default to 30 seconds if showTime is invalid (e.g., 0 or less).
-						int timeout_ms = (mpos_qr_data->showTime > 0) ? (mpos_qr_data->showTime * 1000) : (30 * 1000);
-						qr_display_timer = Sys_TimerOpen(timeout_ms);
-					}
- 
+					unsigned int tick = Sys_TimerOpen(1000);
+					static unsigned int tick1 = 0;
+					int showtime = (int)mpos_qr_data->showTime;
+
+					if (showtime && tick1 == 0)
+						tick1 = Sys_TimerOpen(showtime * 1000);
+					else if (tick1 == 0)
+						tick1 = Sys_TimerOpen(30 * 1000);
+
 					if (g_ntag_init == 0)
 					{
 						g_ntag_init = 1;
-						set_ntag_url(mpos_qr_data->qrdata);
 						Sys_rfid_emulate_init();
+						ntag_config();	
 					}
 					showQr(mpos_qr_data->amt, mpos_qr_data->qrdata);
-					if (Sys_TimerCheck(qr_display_timer) == 0)	
+					if (Sys_TimerCheck(tick1) == 0)	
 					{
 						mpos_func_clear_qr_data();
 						g_show_qr = 0;
-						Sys_rfid_emulate_deinit();
-						g_ntag_init = 0;
-						qr_display_timer = 0; // Reset for the next QR code
+					}
+					while(1)
+					{
+						Sys_rfid_emulate_process();
+						if (Sys_TimerCheck(tick) == 0)
+						{
+							break;
+						}
+						if (gui_get_message(&pMsg, 5) == 0)
+						{
+							if (pMsg.message_id == GUI_KEYPRESS)
+							{
+								if (pMsg.wparam == GUI_KEY_OK || pMsg.wparam == GUI_KEY_QUIT || pMsg.wparam == GUI_KEY_BACKSPACE)
+								{
+									standby_pagepaint();
+									mpos_func_clear_qr_data();
+									g_show_qr = 0;
+									Sys_rfid_emulate_deinit();
+									g_ntag_init = 0;
+									break;
+								}
+							}
+						}
 					}
  				}
 				else if (mpos_qr_data->bmp != NULL)
 				{
+					unsigned int tick1;
 					int x_bmp = 0;
 					int y_bmp = 0;
 					tick1 = Sys_TimerOpen(mpos_qr_data->showTime * 1000);
@@ -951,27 +787,22 @@ void sdk_main_page()
 			else if (pMsg.message_id == GUI_KEYPRESS) 
 			{
 				argot_keyinput(pMsg.wparam);
-
-				// If a QR code is showing, any key press should cancel it.
-				if (g_ntag_init == 1)
-				{
-					standby_pagepaint();
-					mpos_func_clear_qr_data();
-					g_show_qr = 0;
-					Sys_rfid_emulate_deinit();
-					g_ntag_init = 0;
-				}
-				else if (pMsg.wparam == GUI_KEY_QUIT) // Otherwise, open the menu
+				//APP_TRACE_BUFF_LOG(&pMsg.wparam, 1,"KEY INPUT:");
+				//Sys_tms_AppBusy(1);
+				//if (pMsg.wparam == GUI_KEY_OK || pMsg.wparam == GUI_KEY_QUIT)
+				if (pMsg.wparam == GUI_KEY_QUIT)
 				{
 					gui_main_menu_show(MAIN_MENU_PAGE , 0);	
 					gui_post_message(GUI_GUIPAINT, 0 , 0);
 				}
+			
+				//Sys_tms_AppBusy(0);
 			}
-            else if(pMsg.message_id == XM_FILE_DOWNLOAD_PAGE)
-            {
-                close_com();
-                argot_action("#5555#");                         
-            }
+            //else if(pMsg.message_id == XM_FILE_DOWNLOAD_PAGE)
+            //{
+                //close_com();
+                //argot_action("#5555#");                         
+            //}
 #ifdef BLUETOOTH_MODE_SET
 			else if (pMsg.message_id == XM_BT_LINK_PAGE)
 			{
@@ -986,12 +817,6 @@ void sdk_main_page()
 		}
 		_mpos_proc();
 
-		// If NFC is active, process it continuously.
-		if (g_ntag_init == 1)
-		{
-			Sys_rfid_emulate_process();
-		}
-
 		get_hhmmss_str(time_cur);
 		if ( strcmp(time_last,time_cur) != 0 )
 		{
@@ -1002,3 +827,6 @@ void sdk_main_page()
 		}
 	}
 }
+
+
+

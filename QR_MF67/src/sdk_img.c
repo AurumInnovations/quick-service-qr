@@ -90,17 +90,17 @@ void showbmptest()
 	int logotop;
 	int logocolor;
 	char * pbmp;	  
-	// pbmp = gui_load_bmp_ex(LOGOIMG, &logowidth , &logoheight, &logocolor);
-	// if (pbmp != 0){
-	// 	gui_begin_batch_paint();
-	// 	gui_set_win_rc();
-	// 	gui_clear_dc();   
-	// 	logoleft = (gui_get_width()-logowidth)/2;		
-	// 	logotop = (gui_get_height()-logoheight)/2;
-	// 	gui_out_bits_ex(logoleft, logotop, pbmp , logowidth , logoheight , 0 , logocolor);
-	// 	Util_Free(pbmp);
-	// 	gui_end_batch_paint();
-	// }
+	pbmp = gui_load_bmp_ex(LOGOIMG, &logowidth , &logoheight, &logocolor);
+	if (pbmp != 0){
+		gui_begin_batch_paint();
+		gui_set_win_rc();
+		gui_clear_dc();   
+		logoleft = (gui_get_width()-logowidth)/2;		
+		logotop = (gui_get_height()-logoheight)/2;
+		gui_out_bits_ex(logoleft, logotop, pbmp , logowidth , logoheight , 0 , logocolor);
+		Util_Free(pbmp);
+		gui_end_batch_paint();
+	}
 #else
 	gui_clear_win();
 	gui_out_bits(0, 0 ,(unsigned char*)raw , 120 , 60 , 0);

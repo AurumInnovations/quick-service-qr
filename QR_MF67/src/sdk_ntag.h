@@ -2,15 +2,14 @@
 
 typedef struct __pload_data{
 	int len;
-	const char * pyload;
+	char * pyload;
 }pload_data;
 
 void set_ntag_block(unsigned char *buff, int length);
-void set_ntag_url(const char *url);
 void ntag_config();
 void sdk_ntag_test(void);
 int ntag_proc_init();
-char get_url_type(const char * url, pload_data *pload);
+char get_url_type(char * url, pload_data *pload);
 
 #define URI_ID_0x00                 0x00
 #define URI_ID_0x01                 0x01                //"http://www."

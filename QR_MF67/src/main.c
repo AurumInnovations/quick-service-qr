@@ -145,8 +145,8 @@ static void app_init()
 {
 	Sys_setAppVision(APP_VER);	// Set the application version
 	showlogo();			//Display boot logo
-	//set_func_init();
-	mqtt_proc_init();
+	set_func_init();
+	//mqtt_proc_init();
  	sdk_main_page();     
 }
 
