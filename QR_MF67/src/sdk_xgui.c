@@ -171,7 +171,8 @@ static st_gui_menu_item_def _menu_def[] = {
 	{"Settings",	"TTS Volume",	""},
 	{"Settings",	"Lcd Light",	""},
 	{"Settings",	"Power Time",	""}, 
-	{"Settings",	"Open Log",		""},	
+	{"Settings",	"Open Log",		""},
+	{"Settings",	"System Update",""},
 };
 
 void set_msg_arrived(int arrived)
@@ -480,6 +481,11 @@ static int _menu_proc(char *pid)
 		PN5180_ntag_test();
 	}
 #endif
+	else if (strcmp(pid, "System Update") == 0)
+	{
+		// NOTE: Replace with your actual firmware URL
+		sdk_ota_update("http://192.168.86.30:8080/update/update.pack");
+	}
 #endif
 	return 0;
 }
@@ -961,11 +967,11 @@ void sdk_main_page()
 					gui_post_message(GUI_GUIPAINT, 0 , 0);
 				}
 			}
-            //else if(pMsg.message_id == XM_FILE_DOWNLOAD_PAGE)
-            //{
-                //close_com();
-                //argot_action("#5555#");                         
-            //}
+            else if(pMsg.message_id == XM_FILE_DOWNLOAD_PAGE)
+            {
+                close_com();
+                argot_action("#5555#");                         
+            }
 #ifdef BLUETOOTH_MODE_SET
 			else if (pMsg.message_id == XM_BT_LINK_PAGE)
 			{
