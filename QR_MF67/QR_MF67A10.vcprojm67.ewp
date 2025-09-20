@@ -1093,6 +1093,9 @@
       <file>
         <name>$PROJ_DIR$\src\settings\admin_set_func.h</name>
       </file>
+      <file>
+        <name>$PROJ_DIR$\src\settings\mqtt_set.c</name>
+      </file>
     </group>
     <file>
       <name>$PROJ_DIR$\src\test\keySoundSet.c</name>

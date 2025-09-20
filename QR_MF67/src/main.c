@@ -15,7 +15,7 @@
 #define LOGOIMG "data\\logo2.bmp"
 
 #ifdef DEV_MF67_A10
-#define APP_VER "paydemo-V2.1.0"
+#define APP_VER "paydemo-V2.1.3"
 #else
 #define APP_VER "paydemo-V1.1.8.5"
 #endif
@@ -146,7 +146,7 @@ static void app_init()
 	Sys_setAppVision(APP_VER);	// Set the application version
 	showlogo();			//Display boot logo
 	set_func_init();
-	//mqtt_proc_init();
+	mqtt_proc_init();
  	sdk_main_page();     
 }
 

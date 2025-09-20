@@ -7,6 +7,8 @@
 #include "atc/inc/atc_pub.h"
 #include "sdk_ntag.h"
 #include "sdk_driver.h"
+#include "mqtt/mqtt_proc.h"
+#include "settings/mqtt_set.h"
 
 
 LIB_EXPORT int tms_update(const char *file);
@@ -76,7 +78,8 @@ static st_gui_menu_item_def _menu_def[] = {
 	{"Settings",	"TTS Volume",	""},
 	{"Settings",	"Lcd Light",	""},
 	{"Settings",	"Power Time",	""}, 
-	{"Settings",	"Open Log",		""},	
+	{"Settings",	"Open Log",		""},
+	{"Settings",	"MQTT",		""},	
 };
 
 void set_msg_arrived(int arrived)
@@ -276,6 +279,10 @@ static int _menu_proc(char *pid)
 	{
 		LogOutSet_Show();
 	}
+	else if (strcmp(pid, "MQTT") == 0)
+	{
+		MqttSet_Show();
+	}
 	else if (strcmp(pid, "Voice") == 0)
 	{
 		VoiceTest();
@@ -357,6 +364,7 @@ void standby_pagepaint()
 	else
 	{
 		char data[32]={0};
+		char mqtt_status[64] = {0};
 		int logowidth;
 		int logoheight;
 		int logoleft;
@@ -388,9 +396,12 @@ void standby_pagepaint()
 		gui_textout_line_center(data, GUI_LINE_TOP(9));
 #else 
 		get_yyyymmdd_str(data);	
-		gui_textout_line_center(data, GUI_LINE_TOP(6));
+		gui_textout_line_center(data, GUI_LINE_TOP(5));
 		get_hhmmss_str(data);	
-		gui_textout_line_center(data, GUI_LINE_TOP(7));	
+		gui_textout_line_center(data, GUI_LINE_TOP(6));
+		strncpy(mqtt_status, mqtt_status_text(), sizeof(mqtt_status) - 1);
+		mqtt_status[sizeof(mqtt_status) - 1] = '\0';
+		gui_textout_line_center(mqtt_status, GUI_LINE_TOP(7));	
 #endif
 		gui_end_batch_paint();
 	}
@@ -700,6 +711,7 @@ void sdk_main_page()
 					{
 						mpos_func_clear_qr_data();
 						g_show_qr = 0;
+						tick1 = 0;
 					}
 					while(1)
 					{
@@ -719,6 +731,7 @@ void sdk_main_page()
 									g_show_qr = 0;
 									Sys_rfid_emulate_deinit();
 									g_ntag_init = 0;
+									tick1 = 0;
 									break;
 								}
 							}
@@ -827,6 +840,3 @@ void sdk_main_page()
 		}
 	}
 }
-
-
-

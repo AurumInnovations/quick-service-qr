@@ -22,8 +22,8 @@ static const st_setting_def m_set_str[]={
 	{SERIAL_MODE, "0"},
 #endif
 	//MQTT Parameters
-	{MQTT_HOST_IP, "test-mqtt.funicom.com.cn"},
-	{MQTT_HOST_PORT, "32517"},
+	//{MQTT_HOST_IP, "test-mqtt.funicom.com.cn"},
+	//{MQTT_HOST_PORT, "32517"},
 	{MQTT_HOST_OPEN, "1"},
 	{MQTT_HOST_INIT, "1"},
 	{MQTT_HOST_UPDATE, "1"},

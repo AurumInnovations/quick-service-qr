@@ -6,8 +6,6 @@
 #define TERM_SERIAL_NUM			"sSerialNum"
 #define TERM_BATCH_NUM			"sBatchNum"
 
-#define MQTT_HOST_IP			"sMqttHostIp"
-#define MQTT_HOST_PORT			"nMqttHostPort"
 #define MQTT_HOST_OPEN			"nMqttHostOpen"
 #define MQTT_HOST_INIT			"nMqttHostInit"
 #define MQTT_HOST_UPDATE		"nMqttHostUpdate"

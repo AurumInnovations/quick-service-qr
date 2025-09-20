@@ -77,7 +77,7 @@ static int json_get_int_by_key(cJSON* root, const char *key)
 //QR payload example
 //{"amt":"1.00","qrCode":"https://www.google.com/","showTime":"10","orderNo":"1660891251"}
 void mqtt_comm_messageArrived_qr(MessageData* md)
-{   
+{
   MQTTMessage* m = md->message;
 
   if ( m->payloadlen>0)
@@ -95,7 +95,7 @@ void mqtt_comm_messageArrived_qr(MessageData* md)
     cJSON* proot = cJSON_Parse(s_payload);
     FREE(s_payload);
     if(proot != NULL)                   
-    {                            
+    {
       st_qr_data* mpos_qr_data = mpos_func_get_qr_data();
 
       json_get_str_by_key(proot, "qrCode", mpos_qr_data->qrdata, sizeof(mpos_qr_data->qrdata));                                
@@ -125,7 +125,7 @@ int mqtt_proc_Resume()
 }
 
 static int HMACcalculate(char *in, char* key, char * out)
-{ 
+{
 	unsigned char md[32]; //32 bytes
 	const mbedtls_md_info_t *md_info = mbedtls_md_info_from_type( MBEDTLS_MD_SHA256 );
 
@@ -141,6 +141,11 @@ void mqtt_config_init()
 	char hmac_payload[128] = {0};
 
 	memset(&g_mqttConfig, 0x00, sizeof(st_mqtt_config));
+
+  /**hardcoded host and ip for mqtt */
+  APP_TRACE("No valid MQTT config found, using defaults.");
+	strcpy(g_mqttConfig.ip, "192.168.86.249");
+	g_mqttConfig.port = 1883;
 
 	g_mqttConfig.keepAliveInterval = get_setting_int(MQTT_HEART_TIME);
 	if (g_mqttConfig.keepAliveInterval <= 0)
@@ -168,36 +173,30 @@ void mqtt_config_init()
 	}
 
 	strcpy((char*)g_mqttConfig.clientID, cid);
-	strcpy((char*)g_mqttConfig.username, cid);
-	snprintf(g_mqttConfig.topic, sizeof(g_mqttConfig.topic), "/ota/%s/%s/update", g_mqttConfig.hmac_key, g_mqttConfig.clientID);
-	
-	memset(hmac_payload, 0, sizeof(hmac_payload));
-	sprintf(hmac_payload, "clientId{%s}.{%s}%s%s%s", 
-		g_mqttConfig.clientID, g_mqttConfig.clientID, g_mqttConfig.clientID, g_mqttConfig.hmac_key, "2524608000000");
-	HMACcalculate(hmac_payload, (char*)g_mqttConfig.hmac_secret, g_mqttConfig.mqPassword);
-	APP_TRACE("mqtt payload:%s", hmac_payload);
-	//APP_TRACE_BUFF_TIP(g_mqttConfig.mqPassword, 128, "password");
+
+	// --- Hardcoded Credentials ---
+	// Bypassing setting.ini and HMAC calculation to use a fixed username and password.
+	strcpy((char*)g_mqttConfig.username, "testuser");
+	strcpy((char*)g_mqttConfig.mqPassword, "testuser");
+
+	snprintf(g_mqttConfig.topic, sizeof(g_mqttConfig.topic), "/devices/%s/qr", g_mqttConfig.clientID);
 }
 
 static int mqtt_comm_run() 
-{                
+{
 	int rc = 0;
-	char ip[64]={0};
-	int port= 0;
 	static int s_show_once = 0;
 	
   strcpy(s_statustext,"Connecting..");
 	s_status = status_Connecting;
 
 	APP_TRACE("mqtt_comm_run Connecting\r\n");
-	get_setting_str(MQTT_HOST_IP,ip,sizeof(ip));
-	port =get_setting_int(MQTT_HOST_PORT);
 
 	memset(&n,0x00,sizeof(n));
-	n.tls = 1;
+	n.tls = 0;//set 1 for tls
   NetworkInit(&n);       
 #ifndef CLIENT_CRT
-	rc = NetworkConnect(&n, ip, port);
+	rc = NetworkConnect(&n, g_mqttConfig.ip, g_mqttConfig.port);
  #else
 
 #endif
@@ -241,17 +240,22 @@ static int mqtt_comm_run()
 
     rc = MQTTConnect(&c, &data);
     s_client = &c;
-    APP_TRACE("mqtt_comm_run rc from connect:%d\r\n", rc);		                              
+    APP_TRACE("mqtt_comm_run rc from connect:%d\r\n", rc);       
                 
-    rc = MQTTSubscribe(&c, g_mqttConfig.topic, 0, mqtt_comm_messageArrived_qr);
-     
+    rc = MQTTSubscribe(&c, g_mqttConfig.topic, 0, mqtt_comm_messageArrived_qr); 
     Sys_Delay(1000);  
                 
     if(rc == 0) 
     {
-      APP_TRACE("mqtt subscribe success!\r\n");  
+      APP_TRACE("mqtt subscribe success!\r\n");
+	  strcpy(s_statustext,"Connected");
       while( MQTTIsConnected(&c) )
       {					
+		int mqtt_open = get_setting_int(MQTT_HOST_OPEN);
+		if(mqtt_open == 0)
+		{
+			break;
+		}
         rc = MQTTYield(&c, 1000);
         if ( rc != SUCCESS)
         {
@@ -285,17 +289,30 @@ static int mqtt_comm_run()
 	return 0;
 }
 
+
+const char * mqtt_status_text()
+{
+	return s_statustext;
+}
+
 static void mqtt_comm_task(void * p) 
 {
 	mqtt_config_init();
   while(1)
 	{
+		int mqtt_open = get_setting_int(MQTT_HOST_OPEN);
+		if(mqtt_open == 0)
+		{
+			sprintf(s_statustext,"MQTT Disabled");
+			Sys_Sleep(1000);
+			continue;
+		}
 		if ( s_paused == 1)
 		{
 			if ( s_status != status_Paused )
 			{
 				s_status = status_Paused;
-				sprintf(s_statustext,"Paused..");
+					sprintf(s_statustext,"Paused..");
 			}
 			Sys_Sleep(100);
 			continue;
@@ -305,10 +322,10 @@ static void mqtt_comm_task(void * p)
 
 		//Waiting network..
 		if ( net_func_link_state() == 0 ){
-			sprintf(s_statustext,"Wait network..");
-			s_status = status_WaitNetwork;
-			Sys_Sleep(1000);
-			continue;
+				sprintf(s_statustext,"Wait network..");
+				s_status = status_WaitNetwork;
+				Sys_Sleep(1000);
+				continue;
 		}
     
     if(net_func_link_state() == 1)
@@ -316,7 +333,8 @@ static void mqtt_comm_task(void * p)
       mqtt_comm_run(); //mqtt run
     }
     else
-    {           
+    {
+           
 			Sys_Sleep(1000);
 		}
 	}
@@ -338,5 +356,3 @@ int mqtt_proc_init()
         
 	return 0;
 }
-
-
